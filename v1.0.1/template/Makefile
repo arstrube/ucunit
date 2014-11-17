@@ -14,16 +14,19 @@ LD:=gcc
 LDFLAGS:=-g
 
 # Simulator/Emulator
-RUN:=cmd /C
+RUN:=
 
 # Clean up
-RM:=del
+RM:=$(RUN) rm
+
+# Echo off
+SILENT:=@
 
 #----------------------------------------------------
 # Files
 #----------------------------------------------------
 # Name of target file
-TARGET:=Testsuite.exe
+TARGET:=./Testsuite.exe
 
 # Sourcefiles
 SRCS:=           \
@@ -41,30 +44,30 @@ OBJS:=           \
 all: $(TARGET)
 
 run: $(TARGET)
-	echo 'Running $(TARGET)...'
+	$(SILENT)echo 'Running $(TARGET)...'
 	$(RUN) $(TARGET)
 	
 #----------------------------------------------------
 # Linker stage
 #----------------------------------------------------
 $(TARGET):	$(OBJS)
-	echo 'Linking...'
+	$(SILENT)echo 'Linking...'
 	$(LD) $(LDFLAGS) -o $(notdir $@) $(notdir $(OBJS))
 
 #----------------------------------------------------
 # Compiler
 #----------------------------------------------------
 %.obj: %.c
-	echo 'Compiling...'
+	$(SILENT)echo 'Compiling...'
 	$(CC) $(CFLAGS) -o $(notdir $@) -c $<
 	
 #----------------------------------------------------
 # Clean Project
 #----------------------------------------------------
 clean:
-	echo 'Running clean...'
+	$(SILENT)echo 'Running clean...'
 	$(RM) $(TARGET)
 	$(RM) System.obj
 	$(RM) Testsuite.obj
-	echo 'Clean finished.'
+	$(SILENT)echo 'Clean finished.'
 	
